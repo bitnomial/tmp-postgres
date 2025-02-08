@@ -639,8 +639,8 @@ getInitDbVersion :: String
 getInitDbVersion = unsafePerformIO $ readProcessWithExitCode "initdb" ["--version"] "" >>= \case
   (ExitSuccess, outputString, _) -> do
     let
-      theLastPart = last $ words outputString
-      versionPart = takeWhile (\x -> isDigit x || x == '.' || x == '-') theLastPart
+      theVersion = words outputString !! 2
+      versionPart = takeWhile (\x -> isDigit x || x == '.' || x == '-') theVersion
       humanReadable = if last versionPart == '.'
         then init versionPart
         else versionPart
